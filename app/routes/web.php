@@ -31,3 +31,6 @@ Route::get('field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuil
 Route::post('generator_builder/generate', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generate');
 
 
+
+
+Route::resource('profiles', 'ProfileController');
