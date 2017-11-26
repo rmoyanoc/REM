@@ -19,6 +19,7 @@
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->
+          <li><a href="{{ url('home/') }}"><i class="fa fa-home"></i> <span>Sistema</span></a></li>
           <li><a href="{{ backpack_url('dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
             <!-- Users, Roles Permissions -->
           <li class="treeview">
