@@ -7,6 +7,12 @@
 	  	@endif
 	  	><a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.update_account_info') }}</a></li>
 
+		<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.profile')
+			class="active"
+				@endif
+		><a href="{{ route('backpack.account.profile') }}">{{ trans('backpack::base.profile') }}</a></li>
+
 	  <li role="presentation"
 		@if (Request::route()->getName() == 'backpack.account.password')
 	  	class="active"
