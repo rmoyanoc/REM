@@ -185,6 +185,7 @@ return [
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         \InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Backpack\PermissionManager\PermissionManagerServiceProvider::class,
         /* CAMBIOS INFYOM */
 
     ],
