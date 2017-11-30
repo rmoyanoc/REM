@@ -51,7 +51,7 @@ class Profile extends Model
         'nombres' => 'string',
         'apellidoPaterno' => 'string',
         'apellidoMaterno' => 'string',
-        'fechaNacimiento' => 'date',
+        'fechaNacimiento' => 'string',
         'telefono' => 'string'
     ];
 
@@ -61,13 +61,13 @@ class Profile extends Model
      * @var array
      */
     public static $rules = [
-        'users_id' => 'unique:profiles',
-        'rut' => 'max:10',
-        'nombres' => 'max:100',
-        'apellidoPaterno' => 'max:70',
-        'apellidoMaterno' => 'max:70',
-        'fechaNacimiento' => 'date',
-        'telefono' => 'max:15',
+        'users_id' => 'required|exists:users,id|unique:users,id',
+        'rut' => 'required|max:10',
+        'nombres' => 'required|max:100',
+        'apellidoPaterno' => 'required|max:70',
+        'apellidoMaterno' => 'required|max:70',
+        'fechaNacimiento' => 'required|date',
+        'telefono' => 'required|max:15',
         'imagen' => 'image|nullable'
     ];
 

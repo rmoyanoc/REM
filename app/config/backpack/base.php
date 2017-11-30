@@ -19,7 +19,7 @@ return [
     'logo_mini' => '<b>B</b>p',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Cristian Tabacitu',
+    'developer_name' => 'OpenSource Chile Team',
 
     // Developer website. Link in footer.
     'developer_link' => 'http://tabacitu.ro',

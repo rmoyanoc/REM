@@ -48,4 +48,5 @@ return [
     'unknown_error'          => 'Un error desconocido a ocurrido. Porfavor intente nuevamente.',
     'error_saving'           => 'Error al guardar. Porfavor intente nuevamente.',
     'profile'                => 'Perfil',
+    'profile_updated'                => 'Perfil actualizado exitosamente.',
 ];

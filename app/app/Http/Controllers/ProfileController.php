@@ -8,8 +8,10 @@ use App\Http\Requests\CreateProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Repositories\ProfileRepository;
 use Flash;
+use Alert;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends AppBaseController
 {
@@ -51,6 +53,7 @@ class ProfileController extends AppBaseController
      */
     public function store(CreateProfileRequest $request)
     {
+        //auth()->user()->can('create profile');
         $input = $request->all();
 
         $profile = $this->profileRepository->create($input);
@@ -148,4 +151,55 @@ class ProfileController extends AppBaseController
 
         return redirect(route('profiles.index'));
     }
+
+    /**
+     * Show the form for creating a new Profile or updating a created one (always personal).
+     *
+     * @return Response
+     */
+    public function personalProfile()
+    {
+        if (Auth::check()) {
+            // The user is logged in...
+            // Check user ID
+            $id = Auth::id();
+            $profile = $this->profileRepository->findWithoutFail($id);
+
+            if (empty($profile)) {
+                return view('profiles.create');
+            }
+
+            return view('profiles.personalProfile')->with('profile', $profile);
+
+        }else{
+
+            //return view('profiles.create');
+        }
+    }
+
+    /**
+     * Update the personal Profile in storage.
+     *
+     * @param  int              $id
+     * @param UpdateProfileRequest $request
+     *
+     * @return Response
+     */
+    public function updatePersonalProfile($id, UpdateProfileRequest $request)
+    {
+        $profile = $this->profileRepository->findWithoutFail($id);
+
+        if (empty($profile)) {
+            Flash::error('Profile not found');
+
+            return redirect(route('profiles.personal-profile'));
+        }
+
+        $profile = $this->profileRepository->update($request->all(), $id);
+        Alert::success(trans('backpack::base.profile_updated'))->flash();
+        //Flash::success('Profile updated successfully.');
+
+        return redirect(route('profiles.personal-profile'));
+    }
+
 }

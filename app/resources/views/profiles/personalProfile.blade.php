@@ -35,6 +35,7 @@
     </section>
 @endsection
 
+
 @section('content')
     <div class="row">
         <div class="col-md-3">
@@ -42,19 +43,39 @@
         </div>
         <div class="col-md-6">
 
-            @include('adminlte-templates::common.errors')
-            <div class="box box-primary">
+            {!! Form::model($profile, ['route' => ['profiles.update-personal-profile', $profile->id], 'method' => 'patch']) !!}
 
-                <div class="box-body">
-                    <div class="row">
-                        {!! Form::open(['route' => 'profiles.store']) !!}
+                {!! csrf_field() !!}
+
+                <div class="box">
+
+                    <div class="box-body backpack-profile-form">
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->count())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $e)
+                                        <li>{{ $e }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @include('adminlte-templates::common.errors')
 
                         @include('profiles.fields')
 
-                        {!! Form::close() !!}
                     </div>
+
                 </div>
-            </div>
+
+            {!! Form::close() !!}
 
         </div>
     </div>

@@ -8,10 +8,10 @@
 	  	><a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.update_account_info') }}</a></li>
 
 		<li role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.profile')
+			@if (Request::route()->getName() == 'profiles.personal-profile')
 			class="active"
 				@endif
-		><a href="{{ route('backpack.account.profile') }}">{{ trans('backpack::base.profile') }}</a></li>
+		><a href="{{ route('profiles.personal-profile') }}">{{ trans('backpack::base.profile') }}</a></li>
 
 	  <li role="presentation"
 		@if (Request::route()->getName() == 'backpack.account.password')

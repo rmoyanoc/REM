@@ -25,6 +25,15 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules()
     {
-        return Profile::$rules;
+
+        $rules = Profile::$rules;
+        // get ID of the user of the profile being edited.
+        $id = $this->input('users_id');
+
+        //update dont have to change the users_id, so we want to ignore this id for the unique validation
+        $rules['users_id'] = $rules['users_id'].', '.$id;
+
+        return $rules;
+        //return Profile::$rules; <- This is the original rule
     }
 }

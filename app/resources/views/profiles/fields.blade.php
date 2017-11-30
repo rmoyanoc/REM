@@ -49,6 +49,9 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('profiles.index') !!}" class="btn btn-default">Cancel</a>
+    <!--{!! Form::submit('Save', ['class' => 'btn btn-success']) !!}-->
+    <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
+    <a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
+    <!-- <a href="{!! route('profiles.index') !!}" class="btn btn-default">Cancel</a> -->
 </div>
+
