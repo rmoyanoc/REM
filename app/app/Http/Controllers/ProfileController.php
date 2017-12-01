@@ -6,6 +6,7 @@ use App\DataTables\ProfileDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdatePersonalProfileRequest;
 use App\Repositories\ProfileRepository;
 use Flash;
 use Alert;
@@ -53,7 +54,7 @@ class ProfileController extends AppBaseController
      */
     public function store(CreateProfileRequest $request)
     {
-        //auth()->user()->can('create profile');
+        //
         $input = $request->all();
 
         $profile = $this->profileRepository->create($input);
@@ -163,13 +164,14 @@ class ProfileController extends AppBaseController
             // The user is logged in...
             // Check user ID
             $id = Auth::id();
-            $profile = $this->profileRepository->findWithoutFail($id);
+
+            $profile = $this->profileRepository->findByField('users_id',$id);
 
             if (empty($profile)) {
-                return view('profiles.create');
+                return view('profiles.create-personal');
             }
 
-            return view('profiles.personalProfile')->with('profile', $profile);
+            return view('profiles.personalProfile')->with('profile', $profile[0]);
 
         }else{
 
@@ -181,11 +183,11 @@ class ProfileController extends AppBaseController
      * Update the personal Profile in storage.
      *
      * @param  int              $id
-     * @param UpdateProfileRequest $request
+     * @param UpdatePersonalProfileRequest $request
      *
      * @return Response
      */
-    public function updatePersonalProfile($id, UpdateProfileRequest $request)
+    public function updatePersonalProfile($id, UpdatePersonalProfileRequest $request)
     {
         $profile = $this->profileRepository->findWithoutFail($id);
 
@@ -194,8 +196,15 @@ class ProfileController extends AppBaseController
 
             return redirect(route('profiles.personal-profile'));
         }
+        // Check user ID
+        $id_auth = Auth::id();
 
-        $profile = $this->profileRepository->update($request->all(), $id);
+        if($profile->users_id != $id_auth){
+            Alert::success(trans('backpack::base.user_profile_different'))->flash();
+            return redirect(route('profiles.personal-profile'));
+        }
+
+        $profile = $this->profileRepository->update($request->except('users_id', 'rut', 'fechaNacimiento') , $id);
         Alert::success(trans('backpack::base.profile_updated'))->flash();
         //Flash::success('Profile updated successfully.');
 

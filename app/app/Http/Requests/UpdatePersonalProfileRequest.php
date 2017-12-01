@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Profile;
 
-class UpdateProfileRequest extends FormRequest
+class UpdatePersonalProfileRequest extends FormRequest
 {
 
     /**
@@ -15,10 +15,10 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize()
     {
-       $permission = Auth()->user()->can("update profile");
+        $permission = Auth()->user()->can("update personal profile");
 
-       return $permission;
-       //return true;
+        return $permission;
+        //return true;
     }
 
     /**
@@ -39,4 +39,5 @@ class UpdateProfileRequest extends FormRequest
         return $rules;
         //return Profile::$rules; <- This is the original rule
     }
+
 }

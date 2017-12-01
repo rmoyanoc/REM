@@ -61,13 +61,13 @@ class Profile extends Model
      * @var array
      */
     public static $rules = [
-        'users_id' => 'required|exists:users,id|unique:users,id',
+        'users_id' => 'required|exists:users,id|unique:profiles,users_id',
         'rut' => 'required|max:10',
         'nombres' => 'required|max:100',
         'apellidoPaterno' => 'required|max:70',
         'apellidoMaterno' => 'required|max:70',
         'fechaNacimiento' => 'required|date',
-        'telefono' => 'required|max:15',
+        'telefono' => 'max:15|nullable',
         'imagen' => 'image|nullable'
     ];
 

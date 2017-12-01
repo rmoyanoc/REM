@@ -21,7 +21,7 @@ class CreateProfilesTable extends Migration
             $table->string('apellidoPaterno', 70)->required();
             $table->string('apellidoMaterno', 70)->required();
             $table->date('fechaNacimiento');
-            $table->string('telefono', 15);
+            $table->string('telefono', 15)->nullable;
             $table->binary('imagen')->nullable;
             $table->timestamps();
             $table->softDeletes();

@@ -13,7 +13,7 @@
     <section class="content-header">
 
         <h1>
-            {{ trans('backpack::base.profile') }}
+            {{ trans('backpack::base.my_account') }}
         </h1>
 
         <ol class="breadcrumb">
@@ -23,11 +23,11 @@
             </li>
 
             <li>
-                <a href="{{ route('profiles.index') }}">{{ trans('messages.profile') }}</a>
+                <a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.my_account') }}</a>
             </li>
 
             <li class="active">
-                {{ trans('messages.create') }}
+                {{ trans('backpack::base.profile') }}
             </li>
 
         </ol>
@@ -37,7 +37,10 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-3">
+            @include('backpack::auth.account.sidemenu')
+        </div>
+        <div class="col-md-6">
 
             @include('adminlte-templates::common.errors')
             <div class="box box-primary">
