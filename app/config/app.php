@@ -186,6 +186,7 @@ return [
         \InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Backpack\PermissionManager\PermissionManagerServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
         /* CAMBIOS INFYOM */
 
     ],
@@ -242,6 +243,8 @@ return [
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         /* CAMBIOS INFYOM */
 
     ],

@@ -1,7 +1,7 @@
 <!-- Users Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('users_id', 'Users Id:') !!}
-    {!! Form::text('users_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('users_id', $users, '', ['class' => 'form-control']) !!}
 </div>
 
 <!-- Rut Field -->

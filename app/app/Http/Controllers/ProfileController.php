@@ -8,6 +8,7 @@ use App\Http\Requests\CreateProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdatePersonalProfileRequest;
 use App\Repositories\ProfileRepository;
+use App\User;
 use Flash;
 use Alert;
 use App\Http\Controllers\AppBaseController;
@@ -42,7 +43,8 @@ class ProfileController extends AppBaseController
      */
     public function create()
     {
-        return view('profiles.create');
+        $users = \DB::table('users')->pluck('email', 'id');
+        return view('profiles.create')->with('users', $users);
     }
 
     /**
