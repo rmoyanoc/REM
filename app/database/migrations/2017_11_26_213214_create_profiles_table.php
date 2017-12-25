@@ -15,17 +15,18 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('users_id')->unsigned()->required()->unique();
+            $table->integer('empleados_id')->unsigned()->required()->unique();
             $table->string('rut', 10)->required()->unique();
             $table->string('nombres', 100)->required();
             $table->string('apellidoPaterno', 70)->required();
             $table->string('apellidoMaterno', 70)->required();
             $table->date('fechaNacimiento');
-            $table->string('telefono', 15)->nullable;
-            $table->binary('imagen')->nullable;
+            $table->string('telefono', 15)->nullable();
+            $table->binary('imagen')->nullable();
+            $table->string('contacto_accidente', 70)->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('empleados_id')->references('id')->on('empleados');
         });
     }
 

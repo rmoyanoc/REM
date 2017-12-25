@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property date fechaNacimiento
  * @property string telefono
  * @property binary imagen
+ * @property string contacto_accidente
  */
 class Profile extends Model
 {
@@ -37,7 +38,8 @@ class Profile extends Model
         'apellidoMaterno',
         'fechaNacimiento',
         'telefono',
-        'imagen'
+        'imagen',
+        'contacto_accidente'
     ];
 
     /**
@@ -46,13 +48,14 @@ class Profile extends Model
      * @var array
      */
     protected $casts = [
-        'users_id' => 'integer',
+        'empleados_id' => 'integer',
         'rut' => 'string',
         'nombres' => 'string',
         'apellidoPaterno' => 'string',
         'apellidoMaterno' => 'string',
         'fechaNacimiento' => 'string',
-        'telefono' => 'string'
+        'telefono' => 'string',
+        'contacto_accidente' => 'string',
     ];
 
     /**
@@ -61,14 +64,15 @@ class Profile extends Model
      * @var array
      */
     public static $rules = [
-        'users_id' => 'required|exists:users,id|unique:profiles,users_id',
+        'empleados_id' => 'required|exists:empleados,id|unique:profiles,empleados_id',
         'rut' => 'required|max:10',
         'nombres' => 'required|max:100',
         'apellidoPaterno' => 'required|max:70',
         'apellidoMaterno' => 'required|max:70',
         'fechaNacimiento' => 'required|date',
         'telefono' => 'max:15|nullable',
-        'imagen' => 'image|nullable'
+        'imagen' => 'image|nullable',
+        'contacto_accidente' => 'required|max:70',
     ];
 
     

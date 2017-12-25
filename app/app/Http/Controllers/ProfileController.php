@@ -12,6 +12,7 @@ use App\User;
 use Flash;
 use Alert;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,7 +104,16 @@ class ProfileController extends AppBaseController
             return redirect(route('profiles.index'));
         }
 
-        return view('profiles.edit')->with('profile', $profile);
+        // The user is logged in...
+        // Check user ID
+        $id_user = Auth::id();
+        /*
+         * we obtain from table users the user with id $id, we use get and then pluck to
+         * transform to a collection values email and id
+        */
+        $users = \DB::table('users')->where('id', $id_user)->get()->pluck('email', 'id');
+
+        return view('profiles.edit')->with(compact('profile','users'));
     }
 
     /**
@@ -162,23 +172,25 @@ class ProfileController extends AppBaseController
      */
     public function personalProfile()
     {
-        if (Auth::check()) {
             // The user is logged in...
             // Check user ID
             $id = Auth::id();
-
             $profile = $this->profileRepository->findByField('users_id',$id);
 
-            if (empty($profile)) {
-                return view('profiles.create-personal');
+            /*
+             * we obtain from table users the user with id $id, we use get and then pluck to
+             * transform to a collection values email and id
+            */
+            $users = \DB::table('users')->where('id', $id)->get()->pluck('email', 'id');
+
+            if (!isset($profile[0])) {
+                return view('profiles.create-personal')->with('users', $users);
+            }else{
+                $profile = $profile[0];
             }
 
-            return view('profiles.personalProfile')->with('profile', $profile[0]);
+            return view('profiles.personalProfile')->with(compact('profile','users'));
 
-        }else{
-
-            //return view('profiles.create');
-        }
     }
 
     /**

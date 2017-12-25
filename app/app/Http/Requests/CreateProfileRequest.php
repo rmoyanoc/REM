@@ -15,7 +15,9 @@ class CreateProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $permission = Auth()->user()->can("create profile");
+
+        return $permission;
     }
 
     /**

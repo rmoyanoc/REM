@@ -41,7 +41,7 @@
         <div class="col-md-3">
             @include('backpack::auth.account.sidemenu')
         </div>
-        <div class="col-md-6">
+        <div class="col-md-9">
 
             {!! Form::model($profile, ['route' => ['profiles.update-personal-profile', $profile->id], 'method' => 'patch']) !!}
 

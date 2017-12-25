@@ -40,7 +40,7 @@
         <div class="col-md-3">
             @include('backpack::auth.account.sidemenu')
         </div>
-        <div class="col-md-6">
+        <div class="col-md-9">
 
             @include('adminlte-templates::common.errors')
             <div class="box box-primary">
