@@ -48,3 +48,5 @@ Route::resource('empresas', 'empresasController');
 Route::resource('pais', 'PaisController');
 
 Route::resource('comunas', 'ComunaController');
+
+Route::resource('ciudades', 'CiudadController');
