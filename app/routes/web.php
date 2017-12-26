@@ -44,3 +44,5 @@ Route::resource('profiles', 'ProfileController');
 
 
 Route::resource('empresas', 'empresasController');
+
+Route::resource('pais', 'PaisController');

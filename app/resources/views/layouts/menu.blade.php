@@ -9,3 +9,7 @@
     <a href="{!! route('empresas.index') !!}"><i class="fa fa-edit"></i><span>Empresas</span></a>
 </li>
 
+<li class="{{ Request::is('pais*') ? 'active' : '' }}">
+    <a href="{!! route('pais.index') !!}"><i class="fa fa-edit"></i><span>Pais</span></a>
+</li>
+
