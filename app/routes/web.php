@@ -41,3 +41,6 @@ Route::post('profiles/personal-profile', 'ProfileController@personalProfile');
 Route::patch('profiles/update-personal-profile/{id}', 'ProfileController@updatePersonalProfile')->name('profiles.update-personal-profile');
 
 Route::resource('profiles', 'ProfileController');
+
+
+Route::resource('empresas', 'empresasController');
