@@ -25,6 +25,13 @@ class UpdateComunaRequest extends FormRequest
      */
     public function rules()
     {
-        return Comuna::$rules;
+
+        $rules = Comuna::$rules;
+        $id = $this->input('id');
+        $rules['nombre'] = $rules['nombre'].', '.$id;
+
+        return $rules;
+
+        //return Comuna::$rules;
     }
 }

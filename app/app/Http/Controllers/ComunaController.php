@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\DataTables\ComunaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateComunaRequest;
@@ -10,6 +11,8 @@ use App\Repositories\ComunaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\Pais;
+use App\Models\Comuna;
 
 class ComunaController extends AppBaseController
 {
@@ -22,14 +25,60 @@ class ComunaController extends AppBaseController
     }
 
     /**
-     * Display a listing of the Comuna.
+     * Restore a soft deleted Ciudad
      *
-     * @param ComunaDataTable $comunaDataTable
      * @return Response
      */
-    public function index(ComunaDataTable $comunaDataTable)
+    public function restore($id){
+        Comuna::withTrashed()->find($id)->restore();
+        Flash::success('Comuna restaurada.');
+
+        $ciudades = \DB::table('comunas')
+            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
+            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
+            ->whereNotNull('comunas.deleted_at')
+            ->paginate(5);
+
+        return redirect(route('comunas.deleted'));
+    }
+
+    /**
+     * Display a listing of the deleted Ciudad .
+     *
+     * @return Response
+     */
+    public function deleted()
     {
-        return $comunaDataTable->render('comunas.index');
+        $comunas = \DB::table('comunas')
+            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
+            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
+            ->whereNotNull('comunas.deleted_at')
+            ->paginate(5);
+
+
+        return view('comunas.index', ['states' => $comunas,
+            'deletedData'=>'1',
+            'btn' => 'btn-success',
+            'text_button' => 'Restaurar']);
+    }
+
+    /**
+     * Display a listing of the Comuna.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $comunas = \DB::table('comunas')
+            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
+            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
+            ->whereNull('comunas.deleted_at')
+            ->paginate(5);
+
+        return view('comunas.index', ['states' => $comunas,
+            'deletedData'=>'0',
+            'btn' => 'btn-danger',
+            'text_button'=> 'Borrar']);
     }
 
     /**
@@ -39,8 +88,8 @@ class ComunaController extends AppBaseController
      */
     public function create()
     {
-        $paises = \DB::table('pais')->pluck('nombre', 'id');
-        return view('comunas.create')->with('paises', $paises);
+        $paises = \DB::table('pais')->whereNull('deleted_at')->pluck('nombre', 'id');
+        return view('comunas.create')->with('countries', $paises);
     }
 
     /**
@@ -97,8 +146,8 @@ class ComunaController extends AppBaseController
 
             return redirect(route('comunas.index'));
         }
-
-        return view('comunas.edit')->with('comuna', $comuna);
+        $paises = Pais::all();
+        return view('comunas.edit')->with(['state' => $comuna, 'countries'=>$paises]);
     }
 
     /**
@@ -149,4 +198,64 @@ class ComunaController extends AppBaseController
 
         return redirect(route('comunas.index'));
     }
+
+    public function loadStates($countryId) {
+        $states = Comuna::where('pais_id', '=', $countryId)->get(['id', 'nombre']);
+        return response()->json($states);
+    }
+
+    /**
+     * Search state from database base on some specific constraints
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
+    public function search(Request $request) {
+        $constraints = [
+            'comunas.nombre' => $request['name'],
+            'deletedData' => $request['deletedData'],
+        ];
+
+        if($request['deletedData'] == 1){
+            $btn = "btn-success";
+            $text_button = "Restaurar";
+        }else{
+            $btn = "btn-danger";
+            $text_button = "Borrar";
+        }
+
+        $comunas = $this->doSearchingQuery($constraints);
+        return view('comunas.index', ['states' => $comunas,
+            'searchingVals' => $constraints,
+            'deletedData' => $request['deletedData'],
+            'btn'=>$btn,
+            'text_button'=>$text_button]);
+    }
+
+    private function doSearchingQuery($constraints) {
+        $query = \DB::table('comunas');
+        $fields = array_keys($constraints);
+        $index = 0;
+        foreach ($constraints as $constraint) {
+            if($fields[$index] != "deletedData"){
+                if ($constraint != null) {
+                    $query = $query
+                        ->where( $fields[$index], 'like', '%'.$constraint.'%');
+                }
+            }
+            if($fields[$index] == "deletedData"){
+                $constraint ? $query =  $query->whereNotNull('comunas.deleted_at') : $query = $query->whereNull('comunas.deleted_at');
+
+            }
+
+            $index++;
+        }
+
+        $query = $query
+                ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
+                ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id');
+
+        return $query->paginate(5);
+    }
+
 }

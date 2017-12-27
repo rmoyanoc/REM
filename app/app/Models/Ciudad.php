@@ -44,7 +44,7 @@ class Ciudad extends Model
      * @var array
      */
     public static $rules = [
-        'comunas_id' => 'required',
+        'comunas_id' => 'required|exists:comunas,id',
         'nombre' => 'required|max:60'
     ];
 

@@ -47,6 +47,9 @@ Route::resource('empresas', 'empresasController');
 
 Route::resource('pais', 'PaisController');
 
+Route::get('comunas/{comuna}/restore', 'ComunaController@restore')->name('comunas.restore');
+Route::post('comunas/search', 'ComunaController@search')->name('comunas.search');
+Route::get('comunas/deleted', 'ComunaController@deleted')->name('comunas.deleted');
 Route::resource('comunas', 'ComunaController');
 
 

@@ -18,8 +18,6 @@
                         @elseif ($deletedData == 1)
                             <a class="btn btn-primary" href="{{ route('ciudades.index') }}">Ver</a>
                         @endif
-
-
                     </div>
                 </div>
             </div>
@@ -71,8 +69,6 @@
                                                 <button type="submit" class="btn {{$btn}} col-sm-3 col-xs-5 btn-margin">
                                                     {{$text_button}}
                                                 </button>
-
-
                                             </form>
                                         </td>
                                     </tr>

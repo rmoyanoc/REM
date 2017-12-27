@@ -57,7 +57,7 @@ class CiudadController extends AppBaseController
         return view('ciudades.index', ['ciudades' => $ciudades,
                                              'deletedData'=>'1',
                                              'btn' => 'btn-success',
-                                             'text_button' => 'Reincorporar']);
+                                             'text_button' => 'Restaurar']);
     }
 
     /**
@@ -213,10 +213,10 @@ class CiudadController extends AppBaseController
 
         if($request['deletedData'] == 1){
             $btn = "btn-success";
-            $text_button = "Borrar";
+            $text_button = "Restaurar";
         }else{
             $btn = "btn-danger";
-            $text_button = "Reincorporar";
+            $text_button = "Borrar";
         }
 
         $ciudades = $this->doSearchingQuery($constraints);
@@ -252,6 +252,7 @@ class CiudadController extends AppBaseController
 
         return $query->paginate(5);
     }
+
     private function validateInput($request) {
         $this->validate($request, [
             'name' => 'required|max:60|unique:ciudad'

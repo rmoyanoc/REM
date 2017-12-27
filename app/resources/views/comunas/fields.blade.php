@@ -1,7 +1,7 @@
 <!-- Pais Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('pais_id', 'Pais Id:') !!}
-    {!! Form::select('pais_id', $paises, '', ['class' => 'form-control']) !!}
+    {!! Form::select('pais_id', $countries, '', ['class' => 'form-control']) !!}
 </div>
 
 <!-- Nombre Field -->
