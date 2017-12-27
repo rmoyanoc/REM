@@ -25,19 +25,58 @@ class CiudadController extends AppBaseController
     }
 
     /**
-     * Display a listing of the Ciudad.
+     * Restore a soft deleted Ciudad
      *
-     * @param CiudadDataTable $ciudadDataTable
      * @return Response
      */
-    public function index(CiudadDataTable $ciudadDataTable)
+    public function restore($id){
+        Ciudad::withTrashed()->find($id)->restore();
+        Flash::success('Ciudad restaurada.');
+
+        $ciudades = \DB::table('ciudades')
+            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
+            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
+            ->whereNotNull('ciudades.deleted_at')
+            ->paginate(5);
+
+        return redirect(route('ciudades.deleted'));
+    }
+
+    /**
+     * Display a listing of the deleted Ciudad .
+     *
+     * @return Response
+     */
+    public function deleted()
+    {
+        $ciudades = \DB::table('ciudades')
+            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
+            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
+            ->whereNotNull('ciudades.deleted_at')
+            ->paginate(5);
+        return view('ciudades.index', ['ciudades' => $ciudades,
+                                             'deletedData'=>'1',
+                                             'btn' => 'btn-success',
+                                             'text_button' => 'Reincorporar']);
+    }
+
+    /**
+     * Display a listing of the Ciudad.
+     *
+     * @return Response
+     */
+    public function index()
     {
         $ciudades = \DB::table('ciudades')
             ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
             ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
             ->whereNull('ciudades.deleted_at')
             ->paginate(5);
-        return $ciudadDataTable->render('ciudades.index', ['ciudades' => $ciudades]);
+
+        return view('ciudades.index', ['ciudades' => $ciudades,
+                                             'deletedData'=>'0',
+                                             'btn' => 'btn-danger',
+                                             'text_button'=> 'Borrar']);
     }
 
     /**
@@ -168,10 +207,24 @@ class CiudadController extends AppBaseController
      */
     public function search(Request $request) {
         $constraints = [
-            'ciudades.nombre' => $request['name']
+            'ciudades.nombre' => $request['name'],
+            'deletedData' => $request['deletedData'],
         ];
+
+        if($request['deletedData'] == 1){
+            $btn = "btn-success";
+            $text_button = "Borrar";
+        }else{
+            $btn = "btn-danger";
+            $text_button = "Reincorporar";
+        }
+
         $ciudades = $this->doSearchingQuery($constraints);
-        return view('ciudades.index', ['ciudades' => $ciudades, 'searchingVals' => $constraints]);
+        return view('ciudades.index', ['ciudades' => $ciudades,
+                                             'searchingVals' => $constraints,
+                                             'deletedData' => $request['deletedData'],
+                                             'btn'=>$btn,
+                                             'text_button'=>$text_button]);
     }
 
     private function doSearchingQuery($constraints) {
@@ -179,18 +232,24 @@ class CiudadController extends AppBaseController
         $fields = array_keys($constraints);
         $index = 0;
         foreach ($constraints as $constraint) {
-            if ($constraint != null) {
-                $query = $query
-                    ->where( $fields[$index], 'like', '%'.$constraint.'%');
+            if($fields[$index] != "deletedData"){
+                if ($constraint != null) {
+                    $query = $query
+                        ->where( $fields[$index], 'like', '%'.$constraint.'%');
+                }
             }
+            if($fields[$index] == "deletedData"){
+                $constraint ? $query =  $query->whereNotNull('ciudades.deleted_at') : $query = $query->whereNull('ciudades.deleted_at');
 
-            $query = $query
-                ->whereNull('ciudades.deleted_at')
-                ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
-                ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id');
+            }
 
             $index++;
         }
+
+        $query = $query
+            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
+            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id');
+
         return $query->paginate(5);
     }
     private function validateInput($request) {

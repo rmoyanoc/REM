@@ -13,6 +13,13 @@
                     </div>
                     <div class="col-sm-4">
                         <a class="btn btn-primary" href="{{ route('ciudades.create') }}">Agregar nueva ciudad</a>
+                        @if ($deletedData == 0)
+                            <a class="btn btn-primary" href="{{ route('ciudades.deleted') }}">Ver Eliminadas</a>
+                        @elseif ($deletedData == 1)
+                            <a class="btn btn-primary" href="{{ route('ciudades.index') }}">Ver</a>
+                        @endif
+
+
                     </div>
                 </div>
             </div>
@@ -24,6 +31,7 @@
                 </div>
                 <form method="POST" action="{{ route('ciudades.search') }}">
                     {{ csrf_field() }}
+                    <input type="hidden" name="deletedData" value="{{$deletedData}}">
                     @component('layouts.search', ['title' => 'Buscar'])
                         @component('layouts.two-cols-search-row', ['items' => ['Name'],
                         'oldVals' => [isset($searchingVals) ? $searchingVals['ciudades.nombre'] : '']])
@@ -48,15 +56,23 @@
                                         <td>{{ $ciudad->nombre }}</td>
                                         <td>{{ $ciudad->nombre_comuna }}</td>
                                         <td>
+                                            @if ($deletedData == 0)
                                             <form class="row" method="POST" action="{{ route('ciudades.destroy', ['id' => $ciudad->id]) }}" onsubmit = "return confirm('Are you sure?')">
+                                            @elseif ($deletedData == 1)
+                                            <form class="row" method="GET" action="{{ route('ciudades.restore', ['id' => $ciudad->id]) }}" onsubmit = "return confirm('Are you sure?')">
+                                            @endif
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                @if ($deletedData == 0)
                                                 <a href="{{ route('ciudades.edit', ['id' => $ciudad->id]) }}" class="btn btn-warning col-sm-3 col-xs-5 btn-margin">
                                                     Actualizar
                                                 </a>
-                                                <button type="submit" class="btn btn-danger col-sm-3 col-xs-5 btn-margin">
-                                                    Borrar
+                                                @endif
+                                                <button type="submit" class="btn {{$btn}} col-sm-3 col-xs-5 btn-margin">
+                                                    {{$text_button}}
                                                 </button>
+
+
                                             </form>
                                         </td>
                                     </tr>
