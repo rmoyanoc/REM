@@ -35,6 +35,7 @@ class CiudadController extends AppBaseController
         $ciudades = \DB::table('ciudades')
             ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
             ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
+            ->whereNull('ciudades.deleted_at')
             ->paginate(5);
         return $ciudadDataTable->render('ciudades.index', ['ciudades' => $ciudades]);
     }
@@ -184,6 +185,7 @@ class CiudadController extends AppBaseController
             }
 
             $query = $query
+                ->whereNull('ciudades.deleted_at')
                 ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
                 ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id');
 

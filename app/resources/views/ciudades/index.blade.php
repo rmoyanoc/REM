@@ -3,6 +3,8 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
+        <div class="clearfix"></div>
+        @include('flash::message')
         <div class="box">
             <div class="box-header">
                 <div class="row">
@@ -34,8 +36,8 @@
                             <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                                 <thead>
                                 <tr role="row">
-                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="city: activate to sort column ascending">Nombre Ciudad</th>
-                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="state: activate to sort column ascending">Nombre Comuna</th>
+                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="ciudad: activate to sort column ascending">Nombre Ciudad</th>
+                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="comuna: activate to sort column ascending">Nombre Comuna</th>
                                     <th tabindex="0" aria-controls="example2" rowspan="1" colspan="2" aria-label="Action: activate to sort column ascending">Acciones</th>
                                 </tr>
                                 </thead>
@@ -50,10 +52,10 @@
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <a href="{{ route('ciudades.edit', ['id' => $ciudad->id]) }}" class="btn btn-warning col-sm-3 col-xs-5 btn-margin">
-                                                    Update
+                                                    Actualizar
                                                 </a>
                                                 <button type="submit" class="btn btn-danger col-sm-3 col-xs-5 btn-margin">
-                                                    Delete
+                                                    Borrar
                                                 </button>
                                             </form>
                                         </td>
@@ -62,9 +64,9 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th width="20%" rowspan="1" colspan="1">City Name</th>
-                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="state: activate to sort column ascending">State Name</th>
-                                    <th rowspan="1" colspan="2">Action</th>
+                                    <th width="20%" rowspan="1" colspan="1">Nombre Ciudad</th>
+                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="state: activate to sort column ascending">Nombre Comuna</th>
+                                    <th rowspan="1" colspan="2">Acciones</th>
                                 </tr>
                                 </tfoot>
                             </table>
