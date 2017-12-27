@@ -1,7 +1,7 @@
 <!-- Comunas Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('comunas_id', 'Comunas Id:') !!}
-    {!! Form::text('comunas_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('comunas_id', $comunas, '', ['class' => 'form-control', 'placeholder' => 'SELECCIONAR']) !!}
 </div>
 
 <!-- Nombre Field -->

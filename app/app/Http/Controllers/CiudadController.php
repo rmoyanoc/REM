@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\DataTables\CiudadDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateCiudadRequest;
@@ -10,6 +11,8 @@ use App\Repositories\CiudadRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\Comuna;
+use App\Models\Ciudad;
 
 class CiudadController extends AppBaseController
 {
@@ -29,7 +32,11 @@ class CiudadController extends AppBaseController
      */
     public function index(CiudadDataTable $ciudadDataTable)
     {
-        return $ciudadDataTable->render('ciudades.index');
+        $ciudades = \DB::table('ciudades')
+            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
+            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
+            ->paginate(5);
+        return $ciudadDataTable->render('ciudades.index', ['ciudades' => $ciudades]);
     }
 
     /**
@@ -39,7 +46,8 @@ class CiudadController extends AppBaseController
      */
     public function create()
     {
-        return view('ciudades.create');
+        $comunas = \DB::table('comunas')->whereNull('deleted_at')->pluck('nombre', 'id');
+        return view('ciudades.create')->with('comunas', $comunas);
     }
 
     /**
@@ -91,13 +99,15 @@ class CiudadController extends AppBaseController
     {
         $ciudad = $this->ciudadRepository->findWithoutFail($id);
 
+
         if (empty($ciudad)) {
             Flash::error('Ciudad not found');
 
             return redirect(route('ciudades.index'));
         }
 
-        return view('ciudades.edit')->with('ciudad', $ciudad);
+        $comunas = Comuna::all();
+        return view('ciudades.edit')->with(['ciudad' => $ciudad, 'comunas' => $comunas]);
     }
 
     /**
@@ -147,5 +157,43 @@ class CiudadController extends AppBaseController
         Flash::success('Ciudad deleted successfully.');
 
         return redirect(route('ciudades.index'));
+    }
+
+    /**
+     * Search city from database base on some specific constraints
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *  @return \Illuminate\Http\Response
+     */
+    public function search(Request $request) {
+        $constraints = [
+            'ciudades.nombre' => $request['name']
+        ];
+        $ciudades = $this->doSearchingQuery($constraints);
+        return view('ciudades.index', ['ciudades' => $ciudades, 'searchingVals' => $constraints]);
+    }
+
+    private function doSearchingQuery($constraints) {
+        $query = \DB::table('ciudades');
+        $fields = array_keys($constraints);
+        $index = 0;
+        foreach ($constraints as $constraint) {
+            if ($constraint != null) {
+                $query = $query
+                    ->where( $fields[$index], 'like', '%'.$constraint.'%');
+            }
+
+            $query = $query
+                ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
+                ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id');
+
+            $index++;
+        }
+        return $query->paginate(5);
+    }
+    private function validateInput($request) {
+        $this->validate($request, [
+            'name' => 'required|max:60|unique:ciudad'
+        ]);
     }
 }

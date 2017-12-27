@@ -44,8 +44,8 @@ class Comuna extends Model
      * @var array
      */
     public static $rules = [
-        'pais_id' => 'required',
-        'nombre' => 'required|max:60'
+        'pais_id' => 'required|exists:pais,id',
+        'nombre' => 'required|max:60|unique:comunas,nombre'
     ];
 
     

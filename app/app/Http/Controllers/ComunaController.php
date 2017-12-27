@@ -39,7 +39,8 @@ class ComunaController extends AppBaseController
      */
     public function create()
     {
-        return view('comunas.create');
+        $paises = \DB::table('pais')->pluck('nombre', 'id');
+        return view('comunas.create')->with('paises', $paises);
     }
 
     /**

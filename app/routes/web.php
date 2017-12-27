@@ -50,3 +50,5 @@ Route::resource('pais', 'PaisController');
 Route::resource('comunas', 'ComunaController');
 
 Route::resource('ciudades', 'CiudadController');
+
+Route::post('ciudades/search', 'CiudadController@search')->name('ciudades.search');
