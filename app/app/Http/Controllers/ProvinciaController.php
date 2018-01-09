@@ -7,7 +7,7 @@ use App\DataTables\ProvinciaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateCiudadRequest;
 use App\Http\Requests\UpdateCiudadRequest;
-use App\Repositories\CiudadRepository;
+use App\Repositories\ProvinciaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -16,10 +16,10 @@ use App\Models\Provincia;
 
 class ProvinciaController extends AppBaseController
 {
-    /** @var  CiudadRepository */
+    /** @var  ProvinciaRepository */
     private $ciudadRepository;
 
-    public function __construct(CiudadRepository $ciudadRepo)
+    public function __construct(ProvinciaRepository $ciudadRepo)
     {
         $this->ciudadRepository = $ciudadRepo;
     }
@@ -89,11 +89,11 @@ class ProvinciaController extends AppBaseController
     /**
      * Store a newly created Provincia in storage.
      *
-     * @param CreateCiudadRequest $request
+     * @param CreateProvinciaRequest $request
      *
      * @return Response
      */
-    public function store(CreateCiudadRequest $request)
+    public function store(CreateProvinciaRequest $request)
     {
         $input = $request->all();
 
@@ -133,7 +133,7 @@ class ProvinciaController extends AppBaseController
      */
     public function edit($id)
     {
-        $ciudad = $this->ciudadRepository->findWithoutFail($id);
+        $ciudad = $this->provinciaRepository->findWithoutFail($id);
 
 
         if (empty($ciudad)) {
@@ -150,11 +150,11 @@ class ProvinciaController extends AppBaseController
      * Update the specified Provincia in storage.
      *
      * @param  int              $id
-     * @param UpdateCiudadRequest $request
+     * @param UpdateProvinciaRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateCiudadRequest $request)
+    public function update($id, UpdateProvinciaRequest $request)
     {
         $ciudad = $this->ciudadRepository->findWithoutFail($id);
 
@@ -180,7 +180,7 @@ class ProvinciaController extends AppBaseController
      */
     public function destroy($id)
     {
-        $ciudad = $this->ciudadRepository->findWithoutFail($id);
+        $ciudad = $this->provinciaRepository->findWithoutFail($id);
 
         if (empty($ciudad)) {
             Flash::error('Provincia not found');
@@ -203,7 +203,7 @@ class ProvinciaController extends AppBaseController
      */
     public function search(Request $request) {
         $constraints = [
-            'ciudades.nombre' => $request['name'],
+            'provincias.nombre' => $request['name'],
             'deletedData' => $request['deletedData'],
         ];
 
@@ -216,7 +216,7 @@ class ProvinciaController extends AppBaseController
         }
 
         $ciudades = $this->doSearchingQuery($constraints);
-        return view('ciudades.index', ['ciudades' => $ciudades,
+        return view('provincias.index', ['provincias' => $ciudades,
                                              'searchingVals' => $constraints,
                                              'deletedData' => $request['deletedData'],
                                              'btn'=>$btn,
@@ -224,7 +224,7 @@ class ProvinciaController extends AppBaseController
     }
 
     private function doSearchingQuery($constraints) {
-        $query = \DB::table('ciudades');
+        $query = \DB::table('provincias');
         $fields = array_keys($constraints);
         $index = 0;
         foreach ($constraints as $constraint) {
@@ -235,7 +235,7 @@ class ProvinciaController extends AppBaseController
                 }
             }
             if($fields[$index] == "deletedData"){
-                $constraint ? $query =  $query->whereNotNull('ciudades.deleted_at') : $query = $query->whereNull('ciudades.deleted_at');
+                $constraint ? $query =  $query->whereNotNull('provincias.deleted_at') : $query = $query->whereNull('provincias.deleted_at');
 
             }
 
