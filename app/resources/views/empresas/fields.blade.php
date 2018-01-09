@@ -30,7 +30,7 @@
 
 <!-- Ciudad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ciudad', 'Ciudad:') !!}
+    {!! Form::label('ciudad', 'Provincia') !!}
     {!! Form::text('ciudad', null, ['class' => 'form-control']) !!}
 </div>
 

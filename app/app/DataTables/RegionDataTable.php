@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Provincia;
+use App\Models\Region;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class ProvinciaDataTable extends DataTable
+class RegionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,7 +18,7 @@ class ProvinciaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'ciudades.datatables_actions');
+        return $dataTable->addColumn('action', 'regiones.datatables_actions');
     }
 
     /**
@@ -27,7 +27,7 @@ class ProvinciaDataTable extends DataTable
      * @param \App\Models\Post $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Provincia $model)
+    public function query(Region $model)
     {
         return $model->newQuery();
     }
@@ -64,8 +64,9 @@ class ProvinciaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'comunas_id',
-            'nombre'
+            'pais_id',
+            'nombre',
+            'ISO_3166_2_CL'
         ];
     }
 
@@ -76,6 +77,6 @@ class ProvinciaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'ciudadesdatatable_' . time();
+        return 'regionesdatatable_' . time();
     }
 }

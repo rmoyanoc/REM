@@ -15,11 +15,11 @@ class CreateComunasTable extends Migration
     {
         Schema::create('comunas', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('pais_id')->unsigned()->required();
+            $table->integer('provincias_id')->unsigned()->required();
             $table->string('nombre', 60)->required();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('pais_id')->references('id')->on('pais');
+            $table->foreign('provincias_id')->references('id')->on('provincias');
         });
     }
 

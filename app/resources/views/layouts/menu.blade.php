@@ -12,12 +12,3 @@
 <li class="{{ Request::is('pais*') ? 'active' : '' }}">
     <a href="{!! route('pais.index') !!}"><i class="fa fa-edit"></i><span>Pais</span></a>
 </li>
-
-<li class="{{ Request::is('comunas*') ? 'active' : '' }}">
-    <a href="{!! route('comunas.index') !!}"><i class="fa fa-edit"></i><span>Comunas</span></a>
-</li>
-
-<li class="{{ Request::is('ciudades*') ? 'active' : '' }}">
-    <a href="{!! route('ciudades.index') !!}"><i class="fa fa-edit"></i><span>Ciudades</span></a>
-</li>
-

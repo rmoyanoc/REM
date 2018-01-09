@@ -53,7 +53,10 @@ Route::get('comunas/deleted', 'ComunaController@deleted')->name('comunas.deleted
 Route::resource('comunas', 'ComunaController');
 
 
-Route::get('ciudades/{ciudade}/restore', 'CiudadController@restore')->name('ciudades.restore');
-Route::post('ciudades/search', 'CiudadController@search')->name('ciudades.search');
-Route::get('ciudades/deleted', 'CiudadController@deleted')->name('ciudades.deleted');
-Route::resource('ciudades', 'CiudadController');
+Route::get('provincias/{provincia}/restore', 'ProvinciaController@restore')->name('provincias.restore');
+Route::post('provincias/search', 'ProvinciaController@search')->name('provincias.search');
+Route::get('provincias/deleted', 'ProvinciaController@deleted')->name('provincias.deleted');
+Route::resource('provincias', 'ProvinciaController');
+
+
+Route::resource('regiones', 'RegionController');

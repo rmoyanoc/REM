@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Provincia;
+use App\Models\Region;
 
-class CreateCiudadRequest extends FormRequest
+class UpdateRegionRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,6 @@ class CreateCiudadRequest extends FormRequest
      */
     public function rules()
     {
-        return Provincia::$rules;
+        return Region::$rules;
     }
 }

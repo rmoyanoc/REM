@@ -6,26 +6,28 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Provincia
+ * Class Region
  * @package App\Models
- * @version December 26, 2017, 8:01 am UTC
+ * @version January 4, 2018, 3:14 pm UTC
  *
- * @property integer comunas_id
+ * @property integer pais_id
  * @property string nombre
+ * @property string ISO_3166_2_CL
  */
-class Provincia extends Model
+class Region extends Model
 {
     use SoftDeletes;
 
-    public $table = 'ciudades';
+    public $table = 'regiones';
     
 
     protected $dates = ['deleted_at'];
 
 
     public $fillable = [
-        'comunas_id',
-        'nombre'
+        'pais_id',
+        'nombre',
+        'ISO_3166_2_CL'
     ];
 
     /**
@@ -34,8 +36,9 @@ class Provincia extends Model
      * @var array
      */
     protected $casts = [
-        'comunas_id' => 'integer',
-        'nombre' => 'string'
+        'pais_id' => 'integer',
+        'nombre' => 'string',
+        'ISO_3166_2_CL' => 'string'
     ];
 
     /**
@@ -44,8 +47,9 @@ class Provincia extends Model
      * @var array
      */
     public static $rules = [
-        'comunas_id' => 'required|exists:comunas,id',
-        'nombre' => 'required|max:60'
+        'pais_id' => 'required',
+        'nombre' => 'required|max:60',
+        'ISO_3166_2_CL' => 'required|max:6'
     ];
 
     

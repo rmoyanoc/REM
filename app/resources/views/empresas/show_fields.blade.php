@@ -36,7 +36,7 @@
 
 <!-- Ciudad Field -->
 <div class="form-group">
-    {!! Form::label('ciudad', 'Ciudad:') !!}
+    {!! Form::label('ciudad', 'Provincia') !!}
     <p>{!! $empresas->ciudad !!}</p>
 </div>
 

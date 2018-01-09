@@ -8,14 +8,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Actualizar Ciudad</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('ciudades.update', ['id' => $ciudad->id]) }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('provincias.update', ['id' => $provincia->id]) }}">
                             <input type="hidden" name="_method" value="PATCH">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">Nombre Ciudad</label>
 
                                 <div class="col-md-6">
-                                    <input id="nombre" type="text" class="form-control" name="nombre" value="{{ $ciudad->nombre }}" required autofocus>
+                                    <input id="nombre" type="text" class="form-control" name="nombre" value="{{ $provincia->nombre }}" required autofocus>
 
                                     @if ($errors->has('nombre'))
                                         <span class="help-block">

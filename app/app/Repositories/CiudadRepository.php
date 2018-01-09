@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Ciudad;
+use App\Models\Provincia;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
@@ -10,9 +10,9 @@ use InfyOm\Generator\Common\BaseRepository;
  * @package App\Repositories
  * @version December 26, 2017, 8:01 am UTC
  *
- * @method Ciudad findWithoutFail($id, $columns = ['*'])
- * @method Ciudad find($id, $columns = ['*'])
- * @method Ciudad first($columns = ['*'])
+ * @method Provincia findWithoutFail($id, $columns = ['*'])
+ * @method Provincia find($id, $columns = ['*'])
+ * @method Provincia first($columns = ['*'])
 */
 class CiudadRepository extends BaseRepository
 {
@@ -29,6 +29,6 @@ class CiudadRepository extends BaseRepository
      **/
     public function model()
     {
-        return Ciudad::class;
+        return Provincia::class;
     }
 }

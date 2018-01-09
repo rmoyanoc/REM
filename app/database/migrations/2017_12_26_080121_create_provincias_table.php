@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateCiudadesTable extends Migration
+class CreateProvinciasTable extends Migration
 {
 
     /**
@@ -13,13 +13,13 @@ class CreateCiudadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ciudades', function (Blueprint $table) {
+        Schema::create('provincias', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('comunas_id')->unsigned()->required();
+            $table->integer('regiones_id')->unsigned()->required();
             $table->string('nombre', 60)->required();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('comunas_id')->references('id')->on('comunas');
+            $table->foreign('regiones_id')->references('id')->on('regiones');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateCiudadesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ciudades');
+        Schema::drop('provincias');
     }
 }

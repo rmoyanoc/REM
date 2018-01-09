@@ -3,20 +3,15 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Ciudad
+            Region
         </h1>
     </section>
     <div class="content">
-        @include('adminlte-templates::common.errors')
         <div class="box box-primary">
-
             <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'provincias.store']) !!}
-
-                        @include('provincias.fields')
-
-                    {!! Form::close() !!}
+                <div class="row" style="padding-left: 20px">
+                    @include('regiones.show_fields')
+                    <a href="{!! route('regiones.index') !!}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

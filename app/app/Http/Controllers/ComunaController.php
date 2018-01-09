@@ -33,11 +33,6 @@ class ComunaController extends AppBaseController
         Comuna::withTrashed()->find($id)->restore();
         Flash::success('Comuna restaurada.');
 
-        $ciudades = \DB::table('comunas')
-            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
-            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
-            ->whereNotNull('comunas.deleted_at')
-            ->paginate(5);
 
         return redirect(route('comunas.deleted'));
     }
