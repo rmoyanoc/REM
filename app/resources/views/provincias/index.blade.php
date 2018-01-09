@@ -43,7 +43,7 @@
                                 <thead>
                                 <tr role="row">
                                     <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="ciudad: activate to sort column ascending">Nombre Ciudad</th>
-                                    <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="region: activate to sort column ascending">Nombre Regi&oacute;n</th>
+                                    <th width="30%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="region: activate to sort column ascending">Nombre Regi&oacute;n</th>
                                     <th tabindex="0" aria-controls="example2" rowspan="1" colspan="2" aria-label="Action: activate to sort column ascending">Acciones</th>
                                 </tr>
                                 </thead>
@@ -52,7 +52,7 @@
                                 @foreach ($provincias as $ciudad)
                                     <tr role="row" class="odd">
                                         <td>{{ $ciudad->nombre }}</td>
-                                        <td>{{ $ciudad->nombre_comuna }}</td>
+                                        <td>{{ $ciudad->nombre_region }}</td>
                                         <td>
                                             @if ($deletedData == 0)
                                             <form class="row" method="POST" action="{{ route('provincias.destroy', ['id' => $ciudad->id]) }}" onsubmit = "return confirm('Are you sure?')">

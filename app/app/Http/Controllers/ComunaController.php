@@ -11,7 +11,7 @@ use App\Repositories\ComunaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
-use App\Models\Pais;
+use App\Models\Provincia;
 use App\Models\Comuna;
 
 class ComunaController extends AppBaseController
@@ -33,7 +33,6 @@ class ComunaController extends AppBaseController
         Comuna::withTrashed()->find($id)->restore();
         Flash::success('Comuna restaurada.');
 
-
         return redirect(route('comunas.deleted'));
     }
 
@@ -45,10 +44,10 @@ class ComunaController extends AppBaseController
     public function deleted()
     {
         $comunas = \DB::table('comunas')
-            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
-            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
+            ->leftJoin('provincias', 'comunas.provincias_id', '=', 'provincias.id')
+            ->select('comunas.id', 'comunas.nombre', 'provincias.nombre as nombre_provincia', 'provincias.id as provincias_id')
             ->whereNotNull('comunas.deleted_at')
-            ->paginate(5);
+            ->paginate(10);
 
 
         return view('comunas.index', ['states' => $comunas,
@@ -65,10 +64,10 @@ class ComunaController extends AppBaseController
     public function index()
     {
         $comunas = \DB::table('comunas')
-            ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
-            ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id')
+            ->leftJoin('provincias', 'comunas.provincias_id', '=', 'provincias.id')
+            ->select('comunas.id', 'comunas.nombre', 'provincias.nombre as nombre_provincia', 'provincias.id as provincias_id')
             ->whereNull('comunas.deleted_at')
-            ->paginate(5);
+            ->paginate(10);
 
         return view('comunas.index', ['states' => $comunas,
             'deletedData'=>'0',
@@ -141,8 +140,8 @@ class ComunaController extends AppBaseController
 
             return redirect(route('comunas.index'));
         }
-        $paises = Pais::all();
-        return view('comunas.edit')->with(['state' => $comuna, 'countries'=>$paises]);
+        $provincias = Provincia::all();
+        return view('comunas.edit')->with(['state' => $comuna, 'provincias'=>$provincias]);
     }
 
     /**
@@ -247,10 +246,10 @@ class ComunaController extends AppBaseController
         }
 
         $query = $query
-                ->leftJoin('pais', 'comunas.pais_id', '=', 'pais.id')
-                ->select('comunas.id', 'comunas.nombre', 'pais.nombre as nombre_pais', 'pais.id as pais_id');
+            ->leftJoin('provincias', 'comunas.provincias_id', '=', 'provincias.id')
+            ->select('comunas.id', 'comunas.nombre', 'provincias.nombre as nombre_provincia', 'provincias.id as provincias_id');
 
-        return $query->paginate(5);
+        return $query->paginate(10);
     }
 
 }

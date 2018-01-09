@@ -45,7 +45,7 @@
                             <thead>
                             <tr role="row">
                                 <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="comunas: activate to sort column ascending">Nombre Comuna</th>
-                                <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="pais: activate to sort column ascending">Nombre Pa&iacute;s</th>
+                                <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="pais: activate to sort column ascending">Nombre Provincia</th>
                                 <th tabindex="0" aria-controls="example2" rowspan="1" colspan="2" aria-label="Action: activate to sort column ascending">Action</th>
                             </tr>
                             </thead>
@@ -53,7 +53,7 @@
                             @foreach ($states as $state)
                                 <tr role="row" class="odd">
                                     <td>{{ $state->nombre }}</td>
-                                    <td>{{ $state->nombre_pais }}</td>
+                                    <td>{{ $state->nombre_provincia }}</td>
                                     <td>
                                         @if ($deletedData == 0)
                                         <form method="POST" action="{{ route('comunas.destroy', ['id' => $state->id]) }}" onsubmit = "return confirm('Are you sure?')">
@@ -78,7 +78,7 @@
                             <tfoot>
                             <tr>
                                 <th width="20%" rowspan="1" colspan="1">Nombre Comuna</th>
-                                <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="pais: activate to sort column ascending">Nombre Pa&iacute;s</th>
+                                <th width="20%" class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="provincia: activate to sort column ascending">Nombre Provincia</th>
                                 <th rowspan="1" colspan="2">Action</th>
                             </tr>
                             </tfoot>

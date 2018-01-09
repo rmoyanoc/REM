@@ -42,8 +42,9 @@ Route::patch('profiles/update-personal-profile/{id}', 'ProfileController@updateP
 
 Route::resource('profiles', 'ProfileController');
 
-
+/*
 Route::resource('empresas', 'empresasController');
+*/
 
 Route::resource('pais', 'PaisController');
 
@@ -52,11 +53,11 @@ Route::post('comunas/search', 'ComunaController@search')->name('comunas.search')
 Route::get('comunas/deleted', 'ComunaController@deleted')->name('comunas.deleted');
 Route::resource('comunas', 'ComunaController');
 
-/*
+
 Route::get('provincias/{provincia}/restore', 'ProvinciaController@restore')->name('provincias.restore');
 Route::post('provincias/search', 'ProvinciaController@search')->name('provincias.search');
 Route::get('provincias/deleted', 'ProvinciaController@deleted')->name('provincias.deleted');
 Route::resource('provincias', 'ProvinciaController');
-*/
+
 
 Route::resource('regiones', 'RegionController');

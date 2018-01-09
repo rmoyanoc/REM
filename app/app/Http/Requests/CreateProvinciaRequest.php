@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Provincia;
 
-class CreateCiudadRequest extends FormRequest
+class CreateProvinciaRequest extends FormRequest
 {
 
     /**

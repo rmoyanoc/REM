@@ -6,7 +6,7 @@ use App\Models\Provincia;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class CiudadRepository
+ * Class ProvinciaRepository
  * @package App\Repositories
  * @version December 26, 2017, 8:01 am UTC
  *
@@ -14,13 +14,13 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method Provincia find($id, $columns = ['*'])
  * @method Provincia first($columns = ['*'])
 */
-class CiudadRepository extends BaseRepository
+class ProvinciaRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'comunas_id',
+        'regiones_id',
         'nombre'
     ];
 

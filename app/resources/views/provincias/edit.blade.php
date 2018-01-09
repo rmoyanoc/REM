@@ -27,9 +27,9 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Comuna</label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="comunas_id">
-                                        @foreach ($comunas as $comuna)
-                                            <option value="{{$comuna->id}}" {{$comuna->id == $ciudad->comunas_id ? 'selected' : ''}}>{{$comuna->nombre}}</option>
+                                    <select class="form-control" name="regiones_id">
+                                        @foreach ($regiones as $region)
+                                            <option value="{{$region->id}}" {{$region->id == $provincia->regiones_id ? 'selected' : ''}}>{{$region->nombre}}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Region;
 use Illuminate\Http\Request;
 use App\DataTables\ProvinciaDataTable;
 use App\Http\Requests;
-use App\Http\Requests\CreateCiudadRequest;
-use App\Http\Requests\UpdateCiudadRequest;
+use App\Http\Requests\CreateProvinciaRequest;
+use App\Http\Requests\UpdateProvinciaRequest;
 use App\Repositories\ProvinciaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -17,11 +18,11 @@ use App\Models\Provincia;
 class ProvinciaController extends AppBaseController
 {
     /** @var  ProvinciaRepository */
-    private $ciudadRepository;
+    private $provinciaRepository;
 
     public function __construct(ProvinciaRepository $ciudadRepo)
     {
-        $this->ciudadRepository = $ciudadRepo;
+        $this->provinciaRepository = $ciudadRepo;
     }
 
     /**
@@ -46,9 +47,9 @@ class ProvinciaController extends AppBaseController
 
         $ciudades = \DB::table('provincias')
             ->leftJoin('regiones', 'provincias.regiones_id', '=', 'regiones.id')
-            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'region.id as region_id')
+            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'regiones.id as region_id')
             ->whereNotNull('provincias.deleted_at')
-            ->paginate(5);
+            ->paginate(20);
 
         return view('provincias.index', ['provincias' => $ciudades,
                                              'deletedData'=>'1',
@@ -65,9 +66,9 @@ class ProvinciaController extends AppBaseController
     {
          $ciudades = \DB::table('provincias')
             ->leftJoin('regiones', 'provincias.regiones_id', '=', 'regiones.id')
-            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'region.id as region_id')
+            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'regiones.id as region_id')
             ->whereNull('provincias.deleted_at')
-            ->paginate(5);
+            ->paginate(20);
 
         return view('provincias.index', ['provincias' => $ciudades,
                                              'deletedData'=>'0',
@@ -97,7 +98,7 @@ class ProvinciaController extends AppBaseController
     {
         $input = $request->all();
 
-        $ciudad = $this->ciudadRepository->create($input);
+        $ciudad = $this->provinciaRepository->create($input);
 
         Flash::success('Provincia saved successfully.');
 
@@ -118,7 +119,7 @@ class ProvinciaController extends AppBaseController
         if (empty($ciudad)) {
             Flash::error('Provincia not found');
 
-            return redirect(route('ciudades.index'));
+            return redirect(route('provincias.index'));
         }
 
         return view('provincias.show')->with('provincia', $ciudad);
@@ -133,17 +134,17 @@ class ProvinciaController extends AppBaseController
      */
     public function edit($id)
     {
-        $ciudad = $this->provinciaRepository->findWithoutFail($id);
+        $provincia = $this->provinciaRepository->findWithoutFail($id);
 
 
-        if (empty($ciudad)) {
+        if (empty($provincia)) {
             Flash::error('Provincia not found');
 
-            return redirect(route('ciudades.index'));
+            return redirect(route('provincias.index'));
         }
 
-        $comunas = Comuna::all();
-        return view('ciudades.edit')->with(['ciudad' => $ciudad, 'comunas' => $comunas]);
+        $regiones = Region::all();
+        return view('provincias.edit')->with(['provincia' => $provincia, 'regiones' => $regiones]);
     }
 
     /**
@@ -156,19 +157,19 @@ class ProvinciaController extends AppBaseController
      */
     public function update($id, UpdateProvinciaRequest $request)
     {
-        $ciudad = $this->ciudadRepository->findWithoutFail($id);
+        $ciudad = $this->provinciaRepository->findWithoutFail($id);
 
         if (empty($ciudad)) {
             Flash::error('Provincia not found');
 
-            return redirect(route('ciudades.index'));
+            return redirect(route('provincias.index'));
         }
 
-        $ciudad = $this->ciudadRepository->update($request->all(), $id);
+        $ciudad = $this->provinciaRepository->update($request->all(), $id);
 
         Flash::success('Provincia updated successfully.');
 
-        return redirect(route('ciudades.index'));
+        return redirect(route('provincias.index'));
     }
 
     /**
@@ -185,14 +186,14 @@ class ProvinciaController extends AppBaseController
         if (empty($ciudad)) {
             Flash::error('Provincia not found');
 
-            return redirect(route('ciudades.index'));
+            return redirect(route('provincias.index'));
         }
 
-        $this->ciudadRepository->delete($id);
+        $this->provinciaRepository->delete($id);
 
         Flash::success('Provincia deleted successfully.');
 
-        return redirect(route('ciudades.index'));
+        return redirect(route('provincias.index'));
     }
 
     /**
@@ -242,11 +243,12 @@ class ProvinciaController extends AppBaseController
             $index++;
         }
 
-        $query = $query
-            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
-            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id');
 
-        return $query->paginate(5);
+        $query = $query
+            ->leftJoin('regiones', 'provincias.regiones_id', '=', 'regiones.id')
+            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'regiones.id as region_id');
+
+        return $query->paginate(20);
     }
 
     private function validateInput($request) {

@@ -18,7 +18,7 @@ class ProvinciaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'ciudades.datatables_actions');
+        return $dataTable->addColumn('action', 'provincias.datatables_actions');
     }
 
     /**
@@ -64,7 +64,7 @@ class ProvinciaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'comunas_id',
+            'regiones_id',
             'nombre'
         ];
     }
@@ -76,6 +76,6 @@ class ProvinciaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'ciudadesdatatable_' . time();
+        return 'provinciasdatatable_' . time();
     }
 }

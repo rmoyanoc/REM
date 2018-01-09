@@ -25,11 +25,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Pa&iacute;s</label>
+                                <label class="col-md-4 control-label">Provincia</label>
                                 <div class="col-md-6">
-                                    <select class="form-control" name="pais_id">
-                                        @foreach ($countries as $country)
-                                            <option value="{{$country->id}}" {{$country->id == $state->pais_id ? 'selected' : ''}}>{{$country->nombre}}</option>
+                                    <select class="form-control" name="provincias_id">
+                                        @foreach ($provincias as $provincia)
+                                            <option value="{{$provincia->id}}" {{$provincia->id == $state->provincias_id ? 'selected' : ''}}>{{$provincia->nombre}}</option>
                                         @endforeach
                                     </select>
                                 </div>
