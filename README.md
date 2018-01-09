@@ -19,4 +19,6 @@ chmod +x /usr/local/bin/wkhtmltopdf-amd64<br/>
 
 This will prevent the error 126.
 
-Otras opciones https://github.com/barryvdh/laravel-snappy
+Otras opciones https://github.com/barryvdh/laravel-snappy <br/>
+
+<a href="https://www.facebook.com/groups/1728471407462636/">Facebook Proyecto OpenSource Chile</a>
