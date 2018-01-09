@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\DataTables\CiudadDataTable;
+use App\DataTables\ProvinciaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateCiudadRequest;
 use App\Http\Requests\UpdateCiudadRequest;
@@ -12,9 +12,9 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
 use App\Models\Comuna;
-use App\Models\Ciudad;
+use App\Models\Provincia;
 
-class CiudadController extends AppBaseController
+class ProvinciaController extends AppBaseController
 {
     /** @var  CiudadRepository */
     private $ciudadRepository;
@@ -25,73 +25,69 @@ class CiudadController extends AppBaseController
     }
 
     /**
-     * Restore a soft deleted Ciudad
+     * Restore a soft deleted Provincia
      *
      * @return Response
      */
     public function restore($id){
-        Ciudad::withTrashed()->find($id)->restore();
-        Flash::success('Ciudad restaurada.');
+        Provincia::withTrashed()->find($id)->restore();
+        Flash::success('Provincia restaurada.');
 
-        $ciudades = \DB::table('ciudades')
-            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
-            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
-            ->whereNotNull('ciudades.deleted_at')
-            ->paginate(5);
-
-        return redirect(route('ciudades.deleted'));
+        return redirect(route('provincias.deleted'));
     }
 
     /**
-     * Display a listing of the deleted Ciudad .
+     * Display a listing of the deleted Provincia .
      *
      * @return Response
      */
     public function deleted()
     {
-        $ciudades = \DB::table('ciudades')
-            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
-            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
-            ->whereNotNull('ciudades.deleted_at')
+
+        $ciudades = \DB::table('provincias')
+            ->leftJoin('regiones', 'provincias.regiones_id', '=', 'regiones.id')
+            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'region.id as region_id')
+            ->whereNotNull('provincias.deleted_at')
             ->paginate(5);
-        return view('ciudades.index', ['ciudades' => $ciudades,
+
+        return view('provincias.index', ['provincias' => $ciudades,
                                              'deletedData'=>'1',
                                              'btn' => 'btn-success',
                                              'text_button' => 'Restaurar']);
     }
 
     /**
-     * Display a listing of the Ciudad.
+     * Display a listing of the Provincia.
      *
      * @return Response
      */
     public function index()
     {
-        $ciudades = \DB::table('ciudades')
-            ->leftJoin('comunas', 'ciudades.comunas_id', '=', 'comunas.id')
-            ->select('ciudades.id', 'ciudades.nombre', 'comunas.nombre as nombre_comuna', 'comunas.id as comunas_id')
-            ->whereNull('ciudades.deleted_at')
+         $ciudades = \DB::table('provincias')
+            ->leftJoin('regiones', 'provincias.regiones_id', '=', 'regiones.id')
+            ->select('provincias.id', 'provincias.nombre', 'regiones.nombre as nombre_region', 'region.id as region_id')
+            ->whereNull('provincias.deleted_at')
             ->paginate(5);
 
-        return view('ciudades.index', ['ciudades' => $ciudades,
+        return view('provincias.index', ['provincias' => $ciudades,
                                              'deletedData'=>'0',
                                              'btn' => 'btn-danger',
                                              'text_button'=> 'Borrar']);
     }
 
     /**
-     * Show the form for creating a new Ciudad.
+     * Show the form for creating a new Provincia.
      *
      * @return Response
      */
     public function create()
     {
         $comunas = \DB::table('comunas')->whereNull('deleted_at')->pluck('nombre', 'id');
-        return view('ciudades.create')->with('comunas', $comunas);
+        return view('provincias.create')->with('comunas', $comunas);
     }
 
     /**
-     * Store a newly created Ciudad in storage.
+     * Store a newly created Provincia in storage.
      *
      * @param CreateCiudadRequest $request
      *
@@ -103,13 +99,13 @@ class CiudadController extends AppBaseController
 
         $ciudad = $this->ciudadRepository->create($input);
 
-        Flash::success('Ciudad saved successfully.');
+        Flash::success('Provincia saved successfully.');
 
-        return redirect(route('ciudades.index'));
+        return redirect(route('provincias.index'));
     }
 
     /**
-     * Display the specified Ciudad.
+     * Display the specified Provincia.
      *
      * @param  int $id
      *
@@ -117,19 +113,19 @@ class CiudadController extends AppBaseController
      */
     public function show($id)
     {
-        $ciudad = $this->ciudadRepository->findWithoutFail($id);
+        $ciudad = $this->provinciaRepository->findWithoutFail($id);
 
         if (empty($ciudad)) {
-            Flash::error('Ciudad not found');
+            Flash::error('Provincia not found');
 
             return redirect(route('ciudades.index'));
         }
 
-        return view('ciudades.show')->with('ciudad', $ciudad);
+        return view('provincias.show')->with('provincia', $ciudad);
     }
 
     /**
-     * Show the form for editing the specified Ciudad.
+     * Show the form for editing the specified Provincia.
      *
      * @param  int $id
      *
@@ -141,7 +137,7 @@ class CiudadController extends AppBaseController
 
 
         if (empty($ciudad)) {
-            Flash::error('Ciudad not found');
+            Flash::error('Provincia not found');
 
             return redirect(route('ciudades.index'));
         }
@@ -151,7 +147,7 @@ class CiudadController extends AppBaseController
     }
 
     /**
-     * Update the specified Ciudad in storage.
+     * Update the specified Provincia in storage.
      *
      * @param  int              $id
      * @param UpdateCiudadRequest $request
@@ -163,20 +159,20 @@ class CiudadController extends AppBaseController
         $ciudad = $this->ciudadRepository->findWithoutFail($id);
 
         if (empty($ciudad)) {
-            Flash::error('Ciudad not found');
+            Flash::error('Provincia not found');
 
             return redirect(route('ciudades.index'));
         }
 
         $ciudad = $this->ciudadRepository->update($request->all(), $id);
 
-        Flash::success('Ciudad updated successfully.');
+        Flash::success('Provincia updated successfully.');
 
         return redirect(route('ciudades.index'));
     }
 
     /**
-     * Remove the specified Ciudad from storage.
+     * Remove the specified Provincia from storage.
      *
      * @param  int $id
      *
@@ -187,14 +183,14 @@ class CiudadController extends AppBaseController
         $ciudad = $this->ciudadRepository->findWithoutFail($id);
 
         if (empty($ciudad)) {
-            Flash::error('Ciudad not found');
+            Flash::error('Provincia not found');
 
             return redirect(route('ciudades.index'));
         }
 
         $this->ciudadRepository->delete($id);
 
-        Flash::success('Ciudad deleted successfully.');
+        Flash::success('Provincia deleted successfully.');
 
         return redirect(route('ciudades.index'));
     }

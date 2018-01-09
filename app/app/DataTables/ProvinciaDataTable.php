@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Ciudad;
+use App\Models\Provincia;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -27,7 +27,7 @@ class CiudadDataTable extends DataTable
      * @param \App\Models\Post $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Ciudad $model)
+    public function query(Provincia $model)
     {
         return $model->newQuery();
     }

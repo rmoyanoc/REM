@@ -100,5 +100,4 @@
         </div>
     </section>
     <!-- /.content -->
-    </div>
 @endsection
