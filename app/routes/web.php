@@ -61,3 +61,7 @@ Route::resource('provincias', 'ProvinciaController');
 
 
 Route::resource('regiones', 'RegionController');
+
+Route::resource('empresas', 'EmpresaController');
+
+Route::resource('empresas', 'EmpresaController');
