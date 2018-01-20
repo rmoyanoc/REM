@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Empresa
  * @package App\Models
- * @version January 20, 2018, 12:55 am UTC
+ * @version January 20, 2018, 2:15 am UTC
  *
+ * @property \App\Models\Comuna comuna
+ * @property \App\Models\Provincia provincia
+ * @property \Illuminate\Database\Eloquent\Collection permissionRoles
+ * @property \Illuminate\Database\Eloquent\Collection permissionUsers
+ * @property \Illuminate\Database\Eloquent\Collection roleUsers
  * @property string rut
  * @property string razon_social
  * @property string nombre_fantasia
@@ -24,6 +29,9 @@ class Empresa extends Model
 
     public $table = 'empresas';
     
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
 
     protected $dates = ['deleted_at'];
 
@@ -44,6 +52,7 @@ class Empresa extends Model
      * @var array
      */
     protected $casts = [
+        'id' => 'integer',
         'rut' => 'string',
         'razon_social' => 'string',
         'nombre_fantasia' => 'string',
@@ -68,5 +77,19 @@ class Empresa extends Model
         'logotipo' => 'max:45'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function comuna()
+    {
+        return $this->belongsTo(\App\Models\Comuna::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function provincia()
+    {
+        return $this->belongsTo(\App\Models\Provincia::class);
+    }
 }

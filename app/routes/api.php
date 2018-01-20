@@ -23,3 +23,6 @@ Route::group(['prefix' => 'provincias'], function()
 {
     Route::get('/{provincias_id}', 'ProvinciasController@loadComunas');
 });
+
+
+Route::resource('empresas', 'EmpresaAPIController');
