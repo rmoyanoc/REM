@@ -193,11 +193,6 @@ class ComunaController extends AppBaseController
         return redirect(route('comunas.index'));
     }
 
-    public function loadStates($countryId) {
-        $states = Comuna::where('pais_id', '=', $countryId)->get(['id', 'nombre']);
-        return response()->json($states);
-    }
-
     /**
      * Search state from database base on some specific constraints
      *

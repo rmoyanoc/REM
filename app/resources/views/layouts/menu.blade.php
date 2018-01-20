@@ -20,9 +20,6 @@
 <li class="{{ Request::is('comunas*') ? 'active' : '' }}">
     <a href="{!! route('comunas.index') !!}"><i class="fa fa-edit"></i><span>Comunas</span></a>
 </li>
-<li class="{{ Request::is('empresas*') ? 'active' : '' }}">
-    <a href="{!! route('empresas.index') !!}"><i class="fa fa-edit"></i><span>Empresas</span></a>
-</li>
 
 <li class="{{ Request::is('empresas*') ? 'active' : '' }}">
     <a href="{!! route('empresas.index') !!}"><i class="fa fa-edit"></i><span>Empresas</span></a>

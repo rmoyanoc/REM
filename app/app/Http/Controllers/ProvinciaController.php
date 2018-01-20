@@ -256,4 +256,10 @@ class ProvinciaController extends AppBaseController
             'name' => 'required|max:60|unique:ciudad'
         ]);
     }
+
+
+    public function loadComunas($comuna_id) {
+        $comunas = Comuna::where('provincias_id', '=', $comuna_id)->get(['id', 'nombre']);
+        return response()->json($comunas);
+    }
 }

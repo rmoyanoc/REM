@@ -6,10 +6,12 @@ use App\DataTables\EmpresaDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateEmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
+use App\Models\Comuna;
 use App\Repositories\EmpresaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\Provincia;
 
 class EmpresaController extends AppBaseController
 {
@@ -39,7 +41,8 @@ class EmpresaController extends AppBaseController
      */
     public function create()
     {
-        return view('empresas.create');
+        $ciudades = \DB::table('provincias')->whereNull('deleted_at')->pluck('nombre', 'id');
+        return view('empresas.create', ['ciudades'=>$ciudades]);
     }
 
     /**
