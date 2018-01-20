@@ -11,7 +11,11 @@ class RegionesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET IDENTITY_INSERT regiones ON');
+        $connection = config('database.default');
+
+        if($connection == "sqlsrv") {
+            DB::statement('SET IDENTITY_INSERT regiones ON');
+        }
         DB::table('regiones')->insert([
                     'id' => 1,
                     'pais_id' => 1,
@@ -102,6 +106,9 @@ class RegionesTableSeeder extends Seeder
                     'nombre' => 'Arica y Parinacota',
                     'ISO_3166_2_CL'=> 'CL-AP'
                 ]);
-        DB::statement('SET IDENTITY_INSERT regiones OFF');
+
+        if($connection == "sqlsrv") {
+            DB::statement('SET IDENTITY_INSERT regiones OFF');
+        }
     }
 }

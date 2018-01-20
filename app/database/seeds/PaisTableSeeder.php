@@ -12,14 +12,21 @@ class PaisTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET IDENTITY_INSERT pais ON');
+        $connection = config('database.default');
+
+        if($connection == "sqlsrv"){
+            DB::statement('SET IDENTITY_INSERT pais ON');
+        }
         DB::table('pais')->insert([
             'id'=> 1,
             'codigo_pais' => 'CL',
             'nombre' => 'CHILE',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
-        DB::statement('SET IDENTITY_INSERT pais OFF');
+
+        if($connection == "sqlsrv"){
+            DB::statement('SET IDENTITY_INSERT pais OFF');
+        }
 
     }
 

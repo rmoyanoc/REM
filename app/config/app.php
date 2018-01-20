@@ -175,6 +175,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        Jlapp\Swaggervel\SwaggervelServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
         /* CAMBIOS INFYOM */
@@ -187,6 +188,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Backpack\PermissionManager\PermissionManagerServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+
         /* CAMBIOS INFYOM */
 
     ],

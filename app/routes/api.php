@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'provincias'], function()
 {
-    Route::get('/{provincias_id}', 'ProvinciasController@loadComunas');
+    Route::get('/{provincias_id}', 'ProvinciaAPIController@loadComunas');
 });
 
 

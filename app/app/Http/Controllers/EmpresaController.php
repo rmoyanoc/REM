@@ -41,7 +41,7 @@ class EmpresaController extends AppBaseController
      */
     public function create()
     {
-        $ciudades = \DB::table('provincias')->whereNull('deleted_at')->pluck('nombre', 'id');
+        $ciudades = \DB::table('provincias')->whereNull('deleted_at')->pluck('nombre', 'id')->all();
         return view('empresas.create', ['ciudades'=>$ciudades]);
     }
 

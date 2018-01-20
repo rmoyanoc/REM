@@ -11,7 +11,11 @@ class ProvinciasTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET IDENTITY_INSERT provincias ON');
+        $connection = config('database.default');
+
+        if($connection == "sqlsrv"){
+            DB::statement('SET IDENTITY_INSERT provincias ON');
+        }
 
         DB::table('provincias')->insert([
             'id' => 1,
@@ -284,6 +288,8 @@ class ProvinciasTableSeeder extends Seeder
                     'regiones_id'=> 13
                 ]);
 
-        DB::statement('SET IDENTITY_INSERT provincias OFF');
+        if($connection == "sqlsrv") {
+            DB::statement('SET IDENTITY_INSERT provincias OFF');
+        }
     }
 }

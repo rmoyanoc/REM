@@ -257,9 +257,4 @@ class ProvinciaController extends AppBaseController
         ]);
     }
 
-
-    public function loadComunas($comuna_id) {
-        $comunas = Comuna::where('provincias_id', '=', $comuna_id)->get(['id', 'nombre']);
-        return response()->json($comunas);
-    }
 }

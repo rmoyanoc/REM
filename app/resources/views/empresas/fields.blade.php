@@ -25,13 +25,13 @@
 <!-- Provincias Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('provincias_id', 'Provincias Id:') !!}
-    {!! Form::select('provincias_id', $ciudades, '', ['class' => 'form-control']) !!}
+    {!! Form::select('provincias_id', array_merge(['' => 'Seleccionar provincia'], $ciudades), '', ['class' => 'form-control js-provincias']) !!}
 </div>
 
 <!-- Comunas Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('comunas_id', 'Comunas Id:') !!}
-    {!! Form::text('comunas_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('comunas_id', [''=>'Seleccionar comuna'], 2, ['class' => 'form-control js-comunas']) !!}
 </div>
 
 <!-- Logotipo Field -->
@@ -52,7 +52,7 @@
             var selectedVal = $(element).val();
 
             // select all
-            if (selectedVal == -1) {
+            if (selectedVal == '') {
                 return;
             }
 
@@ -67,7 +67,7 @@
                     for (var  i = 0; i < datas.length; i++) {
                         $(selectInputClass).append($('<option>', {
                             value: datas[i].id,
-                            text: datas[i].name
+                            text: datas[i].nombre
                         }));
                     }
                 },
@@ -77,8 +77,8 @@
         }
 
         function loadCiudades(element) {
-            $('.js-cities').empty().append('<option value="-1">Please select your city</option>');;
-            loadItems(element, '../api/cities/', '.js-cities');
+            $('.js-comunas').empty().append('<option value="">Seleccionar comuna</option>');;
+            loadItems(element, '../api/provincias/', '.js-comunas');
         }
 
         function registerEvents() {
