@@ -25,7 +25,7 @@
 <!-- Provincias Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('provincias_id', 'Provincias Id:') !!}
-    {!! Form::select('provincias_id', array_merge(['' => 'Seleccionar provincia'], $ciudades), '', ['class' => 'form-control js-provincias']) !!}
+    {!! Form::select('provincias_id', array_merge(['0' => 'Seleccionar provincia'], $ciudades), '', ['class' => 'form-control js-provincias']) !!}
 </div>
 
 <!-- Comunas Id Field -->
@@ -52,7 +52,7 @@
             var selectedVal = $(element).val();
 
             // select all
-            if (selectedVal == '') {
+            if (selectedVal == 0) {
                 return;
             }
 
